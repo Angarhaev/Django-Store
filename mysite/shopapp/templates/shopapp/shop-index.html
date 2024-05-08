@@ -1,0 +1,24 @@
+{% extends "shopapp/base.html" %}
+
+{% block title %}shop-index{% endblock %}
+
+{% block body %}
+<h1>Hello shop index!</h1>
+<ul>
+    {% for name, price in products %}
+    <li>
+        {{name|capfirst}} for ${{price}}
+        {% if price <= 50 %}
+        <span style="color: red"> Lucky product!!!</span>
+        {% endif %}
+    </li>
+    {% empty %}
+    Sorry! We don't have products
+    {% endfor %}
+</ul>
+<div>Running time {{ time_running }}</div>
+<div> {% lorem 3 p random %}</div>
+<div>{% now "H:i" %}</div>
+<div>{% now 'l' as current_weekday %}</div>
+Today is {{current_weekday}}
+{% endblock %}
