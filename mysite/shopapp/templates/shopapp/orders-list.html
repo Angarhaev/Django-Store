@@ -24,4 +24,6 @@ Orders list
 {% else %}
 No orders
 {% endif %}
+<br>
+<a href="{% url 'shopapp:create_order' %}">Create order</a>
 {% endblock %}
