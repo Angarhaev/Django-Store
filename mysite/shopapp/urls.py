@@ -1,13 +1,31 @@
 from django.urls import path
-from .views import shop_index, groups, products_list, orders_list, product_create, order_create
+from .views import (ShopIndexViews,
+                    GroupsListView,
+                    ProductsList,
+                    ProductDetailsView,
+                    ProductCreate,
+                    ProductUpdate,
+                    ProductArchiveView,
+                    OrdersListView,
+                    OrderDetailView,
+                    OrderCreate,
+                    OrderUpdate,
+                    OrderDeleteView)
+
 
 app_name = 'shopapp'
 
 urlpatterns = [
-    path("", shop_index, name="index"),
-    path("groups/", groups, name="groups"),
-    path("products/", products_list, name="products_list"),
-    path("orders/", orders_list, name="orders_list"),
-    path("products/create", product_create, name="create_product"),
-    path("orders/create", order_create, name="create_order"),
+    path("", ShopIndexViews.as_view(), name="index"),
+    path("groups/", GroupsListView.as_view(), name="groups"),
+    path("products/", ProductsList.as_view(), name="products_list"),
+    path("products/create", ProductCreate.as_view(), name="product_create"),
+    path("products/<int:pk>", ProductDetailsView.as_view(), name="product_detail"),
+    path("products/<int:pk>/update", ProductUpdate.as_view(), name="product_update"),
+    path("products/<int:pk>/delete", ProductArchiveView.as_view(), name="product_archive"),
+    path("orders/", OrdersListView.as_view(), name="orders_list"),
+    path("orders/create", OrderCreate.as_view(), name="order_create"),
+    path("order/<int:pk>", OrderDetailView.as_view(), name="order_detail"),
+    path("order/<int:pk>/update", OrderUpdate.as_view(), name="order_update"),
+    path("order/<int:pk>/delete", OrderDeleteView.as_view(), name="order_delete"),
 ]

@@ -4,7 +4,11 @@
 
 {% block body %}
 <h1>Groups:</h1>
-
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Create groups</button>
+</form>
 <div>
     {% if not groups %}
         No group yet

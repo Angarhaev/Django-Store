@@ -1,13 +1,10 @@
-{% extends "shopapp/base.html" %}
+{% extends 'shopapp/base.html' %}
 {% block title %}
-Orders list
+Order #{{ order.pk }}
 {% endblock %}
 {% block body %}
-<h1>Orders</h1>
-{% if orders %}
-{% for order in orders %}
-<div>
-    <p>Order by {% firstof order.user.first_name order.user.username %}</p>
+<p>Order #{{ order.pk }}</p>
+<p>Order by {% firstof order.user.first_name order.user.username %}</p>
     <p>Promocode: {% firstof order.promocode "No promocode" %}</p>
     <p>Delivery address: {{order.delivery_address}}</p>
     <p>Created at: {{order.created_at}}</p>
@@ -18,12 +15,7 @@ Orders list
             {% endfor %}
         </ul>
     </div>
-
-</div>
-{% endfor %}
-{% else %}
-No orders
-{% endif %}
-<br>
-<a href="{% url 'shopapp:create_order' %}">Create order</a>
+    <p><a href="{% url 'shopapp:order_update' pk=order.pk %}">Update order</a></p>
+    <p><a href="{% url 'shopapp:order_delete' pk=order.pk %}">Delete order</a></p>
+    <p><a href="{% url 'shopapp:orders_list' %}">Back to orders</a></p>
 {% endblock %}

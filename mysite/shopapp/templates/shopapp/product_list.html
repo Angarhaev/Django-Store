@@ -2,10 +2,10 @@
 {% block title %}Products list{% endblock %}
 {% block body %}
 <h1>Products:</h1>
-    {% if products %}
-        {% for product in products %}
+    {% if object_list %}
+        {% for product in object_list %}
         <div>
-            <p>Name: {{ product.name }}</p>
+            <p><a href="{% url 'shopapp:product_detail' pk=product.pk %}">Name: {{ product.name }}</a></p>
             <p>Price: {{ product.price }}</p>
             <p>Discount: {% firstof product.discount "No discount"%}</p>
             <p>Создан: {{ product.created_at }}</p>
@@ -14,5 +14,5 @@
     {% else %}
         <h3>No Products yet </h3>
     {% endif %}
-<a href="{% url 'shopapp:create_product' %}">Create product</a>
+<a href="{% url 'shopapp:product_create' %}">Create product</a>
 {% endblock %}
