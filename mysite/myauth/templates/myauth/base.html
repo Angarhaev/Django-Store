@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Title{% endblock %}</title>
+</head>
+<body>
+{% block body %}
+    <form method="post" action="{% url 'myauth:logout' %}">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+    </form>
+{% endblock %}
+</body>
+</html>
