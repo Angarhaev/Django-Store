@@ -1,5 +1,6 @@
 from timeit import default_timer
 
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
 from django.views import View
 from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.models import Group
@@ -47,6 +48,7 @@ class ProductsList(ListView):
     #model = Product
     queryset = Product.objects.filter(archived=False)
 
+
 class ProductDetailsView(DetailView):
     template_name = "shopapp/product_detail.html"
     #model = Product
@@ -54,13 +56,24 @@ class ProductDetailsView(DetailView):
     queryset = Product.objects.filter(archived=False)
 
 
-class ProductCreate(CreateView):
+class ProductCreate(PermissionRequiredMixin, CreateView):
+    permission_required = ['shopapp.add_product']
     model = Product
     fields = ["name", "description", "price", "discount"]
     success_url = reverse_lazy("shopapp:products_list")
 
+    def form_valid(self, form):
+        form.instance.created_by = self.request.user
+        return super().form_valid(form)
 
-class ProductUpdate(UpdateView):
+
+class ProductUpdate(UserPassesTestMixin, PermissionRequiredMixin, UpdateView):
+    def test_func(self):
+        product = self.get_object()
+        creator = product.created_by
+        return self.request.user.is_superuser or self.request.user == creator
+
+    permission_required = ['shopapp.change_product']
     model = Product
     fields = ["name", "description", "price", "discount"]
     template_name_suffix = "_update_form"
@@ -73,6 +86,7 @@ class ProductArchiveView(DeleteView):
     model = Product
     success_url = reverse_lazy("shopapp:products_list")
     template_name_suffix = "_confirm_archive"
+
     def form_valid(self, form):
         success_url = self.get_success_url()
         self.object.archived = True
@@ -80,7 +94,7 @@ class ProductArchiveView(DeleteView):
         return HttpResponseRedirect(success_url)
 
 
-class OrdersListView(ListView):
+class OrdersListView(LoginRequiredMixin, ListView):
     queryset = Order.objects.select_related("user").prefetch_related("products")
 
 

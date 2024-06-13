@@ -10,6 +10,7 @@ Product {{ product.name }}
 <p>Price: {{ product.price }}</p>
 <p>Discount: {{ product.discount }}</p>
 <p>Created at {{ product.created_at }}</p>
+<p>Created by: {{ product.created_by }}</p>
 <p>Archived: {{ product.archived }}</p>
 <p><a href="{% url 'shopapp:product_update' pk=product.pk %}">Update product</a></p>
 <p><a href="{% url 'shopapp:product_archive' pk=product.pk %}">Archive product</a></p>
