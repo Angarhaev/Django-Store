@@ -6,7 +6,8 @@ from .views import (AboutMeView,
                     set_cookies_view,
                     get_cookies_view,
                     set_session_view,
-                    get_session_view)
+                    get_session_view,
+                    get_json)
 
 app_name = 'myauth'
 
@@ -24,5 +25,6 @@ urlpatterns = [
     path('get_cookie/', get_cookies_view, name='get_cookie'),
     path('set_session/', set_session_view, name='set_session'),
     path('get_session/', get_session_view, name='get_session'),
+    path('get_json/', get_json, name="get_json")
 ]
 

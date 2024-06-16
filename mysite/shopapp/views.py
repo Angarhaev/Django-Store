@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.views import View
 from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.models import Group
-from django.http import HttpResponse, HttpRequest, HttpResponseRedirect
+from django.http import HttpResponse, HttpRequest, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.urls import reverse_lazy
 
@@ -49,7 +49,12 @@ class ProductsList(ListView):
     queryset = Product.objects.filter(archived=False)
 
 
-class ProductDetailsView(DetailView):
+class ProductDetailsView(UserPassesTestMixin, DetailView):
+    def test_func(self):
+        product = self.get_object()
+        creator = product.created_by
+        return self.request.user.is_superuser or self.request.user == creator
+
     template_name = "shopapp/product_detail.html"
     #model = Product
     context_object_name = 'product'
@@ -94,21 +99,32 @@ class ProductArchiveView(DeleteView):
         return HttpResponseRedirect(success_url)
 
 
-class OrdersListView(LoginRequiredMixin, ListView):
+class OrdersListView(PermissionRequiredMixin, ListView):
+    permission_required = ['shopapp.view_order']
     queryset = Order.objects.select_related("user").prefetch_related("products")
 
 
-class OrderDetailView(DetailView):
+class OrderDetailView(UserPassesTestMixin, DetailView):
+    def test_func(self):
+        order = self.get_object()
+        creator = order.user
+        return self.request.user.is_superuser or self.request.user == creator
+
     queryset = Order.objects.select_related("user").prefetch_related("products")
 
 
-class OrderCreate(CreateView):
+class OrderCreate(LoginRequiredMixin, CreateView):
     model = Order
     fields = ["delivery_address", "promocode", "user", "products"]
     success_url = reverse_lazy("shopapp:orders_list")
 
 
-class OrderUpdate(UpdateView):
+class OrderUpdate(UserPassesTestMixin, UpdateView):
+    def test_func(self):
+        order = self.get_object()
+        creator = order.user
+        return self.request.user.is_superuser or self.request.user == creator
+
     model = Order
     fields = ["delivery_address", "promocode", "user", "products"]
     template_name_suffix = "_update_form"
@@ -117,7 +133,31 @@ class OrderUpdate(UpdateView):
         return reverse("shopapp:order_detail", kwargs={"pk": self.object.pk})
 
 
-class OrderDeleteView(DeleteView):
+class OrderDeleteView(UserPassesTestMixin, DeleteView):
+    def test_func(self):
+        order = self.get_object()
+        creator = order.user
+        return self.request.user.is_superuser or self.request.user == creator
     model = Order
     success_url = reverse_lazy("shopapp:orders_list")
+
+
+class OrderExportJson(UserPassesTestMixin, View):
+    def test_func(self):
+        return self.request.user.is_superuser or self.request.user.is_staff
+
+    def get(self, request: HttpRequest) -> JsonResponse:
+        orders = Order.objects.order_by("pk").all()
+        orders_data = [
+            {
+                'pk': order.pk,
+                'deliver_address': order.delivery_address,
+                'promocode': order.promocode,
+                'created_at': str(order.created_at),
+                'user': order.user.username,
+                'products': list(order.products.order_by('pk').all().values_list('name', flat=True))
+            }
+            for order in orders
+        ]
+        return JsonResponse({'orders': orders_data})
 

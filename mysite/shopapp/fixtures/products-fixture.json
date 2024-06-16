@@ -1,0 +1,54 @@
+[
+  {
+    "model": "shopapp.product",
+    "pk": 1,
+    "fields": {
+      "name": "Laptop",
+      "description": ",j;mlk",
+      "price": "1500.00",
+      "discount": 5,
+      "created_at": "2024-06-13T10:08:46.935Z",
+      "created_by": 1,
+      "archived": false
+    }
+  },
+  {
+    "model": "shopapp.product",
+    "pk": 2,
+    "fields": {
+      "name": "Phone",
+      "description": "asldjas",
+      "price": "1000.00",
+      "discount": 5,
+      "created_at": "2024-06-13T10:47:58.842Z",
+      "created_by": 1,
+      "archived": false
+    }
+  },
+  {
+    "model": "shopapp.product",
+    "pk": 3,
+    "fields": {
+      "name": "Desktop6",
+      "description": "asdasdlh",
+      "price": "1500.00",
+      "discount": 5,
+      "created_at": "2024-06-13T11:46:00.577Z",
+      "created_by": 2,
+      "archived": false
+    }
+  },
+  {
+    "model": "shopapp.product",
+    "pk": 4,
+    "fields": {
+      "name": "Samsung2",
+      "description": "sdkjf",
+      "price": "2000.00",
+      "discount": 10,
+      "created_at": "2024-06-13T12:04:03.612Z",
+      "created_by": 2,
+      "archived": false
+    }
+  }
+]
