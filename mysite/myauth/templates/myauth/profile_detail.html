@@ -1,0 +1,27 @@
+{% extends 'myauth/base.html' %}
+{% block title %}Profile info{% endblock %}
+{% block body %}
+<h1>Profile info</h1>
+<div>
+     {% if profile.avatar %}
+      <p><img src="{{ profile.avatar.url }}" alt="{{ profile.avatar.profile.name }}"></p>
+    {% else %}
+      <p>No avatar</p>
+    {% endif %}
+    <div>
+        {% if request.user.is_staff  or request.user == profile.user %}
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Send</button>
+            </form>
+        {% endif %}
+    </div>
+    <p>Profile Details:<p/>
+        <p>Username: {{ profile.user.username }}</p>
+        <p>First name: {{ profile.user.first_name }}</p>
+        <p>Last name: {{ profile.user.last_name }}</p>
+        <p>Email: {{ profile.user.email }}</p>
+        <p>Bio: {{ profile.bio }}</p>
+</div>
+{% endblock %}

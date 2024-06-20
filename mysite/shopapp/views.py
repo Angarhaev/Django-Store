@@ -44,7 +44,7 @@ class GroupsListView(View):
 
 
 class ProductsList(ListView):
-    template_name = 'shopapp:product_list.html'
+    template_name = 'shopapp/product_list.html'
     #model = Product
     queryset = Product.objects.filter(archived=False)
 
