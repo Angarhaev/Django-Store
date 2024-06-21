@@ -5,10 +5,18 @@ from django.contrib.auth.models import User
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
+from django.utils.translation import gettext as _
 from django.views import View
 from django.views.generic import TemplateView, CreateView, UpdateView, ListView, DetailView
 from myauth.forms import ProfileForm, AvatarUpdateForm
 from myauth.models import Profile
+
+
+
+class HelloWorld(View):
+    def get(self, request):
+        text = _('welcome Hello World!')
+        return HttpResponse(f'<h1>{text}</h1>')
 
 
 class AboutMeRedirectView(LoginRequiredMixin, View):

@@ -10,7 +10,7 @@ from .views import (AboutMeView,
                     get_json,
                     AboutMeRedirectView,
                     ProfilesList,
-                    ProfileDetail)
+                    ProfileDetail, HelloWorld)
 
 app_name = 'myauth'
 
@@ -31,6 +31,7 @@ urlpatterns = [
     path('get_session/', get_session_view, name='get_session'),
     path('get_json/', get_json, name="get_json"),
     path('profiles_list/', ProfilesList.as_view(), name='profiles_list'),
-    path('profile/<int:pk>', ProfileDetail.as_view(), name='profile_detail')
+    path('profile/<int:pk>', ProfileDetail.as_view(), name='profile_detail'),
+    path('hello/', HelloWorld.as_view(), name='hello')
 ]
 

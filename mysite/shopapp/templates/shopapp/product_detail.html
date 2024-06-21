@@ -1,18 +1,34 @@
 {% extends "shopapp/base.html" %}
-
+{% load i18n %}
 {% block title %}
-Product {{ product.name }}
+{% translate 'Product' %} {{ product.name }}
 {% endblock %}
 
 {% block body %}
-<h1>Product: <strong>{{ product.name }}</strong></h1>
-<p>{{ product.description }}</p>
-<p>Price: {{ product.price }}</p>
-<p>Discount: {{ product.discount }}</p>
-<p>Created at {{ product.created_at }}</p>
-<p>Created by: {{ product.created_by }}</p>
-<p>Archived: {{ product.archived }}</p>
-<p><a href="{% url 'shopapp:product_update' pk=product.pk %}">Update product</a></p>
-<p><a href="{% url 'shopapp:product_archive' pk=product.pk %}">Archive product</a></p>
-<p><a href="{% url 'shopapp:products_list' %}">Back to products</a></p>
+<h1>{% translate 'Name' context 'product name' %}: <strong>{{ product.name }}</strong></h1>
+<p>{% translate 'Description' %}: {{ product.description }}</p>
+<p>{% translate 'Price' %}: {{ product.price }}</p>
+<p>{% translate 'Discount' %}: {{ product.discount }}</p>
+<p>{% translate 'Created at' %}: {{ product.created_at }}</p>
+<p>{% translate 'Created by' %}: {{ product.created_by }}</p>
+<p>{% translate 'Archived' %}: {{ product.archived }}</p>
+
+{% url 'shopapp:product_update' pk=product.pk as product_update %}
+{% url 'shopapp:product_archive' pk=product.pk as product_archive %}
+{% url 'shopapp:products_list' as products_list %}
+
+<div>
+{% blocktranslate %}
+    <p><a href="{{ product_update }}">Update product</a></p>
+    <p><a href="{{ product_archive }}">Archive product</a></p>
+    <p><a href="{{ products_list }}">Back to products</a></p>
+{% endblocktranslate %}
+</div>
+<div>
+    {% blocktranslate count photos_count=1 %}
+        There is only one photo
+        {% plural %}
+        There are {{ photos_count }} photos
+    {% endblocktranslate %}
+</div>
 {% endblock %}
