@@ -7,9 +7,38 @@ from django.contrib.auth.models import Group
 from django.http import HttpResponse, HttpRequest, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.urls import reverse_lazy
-
+from rest_framework.filters import SearchFilter, OrderingFilter
+from rest_framework.viewsets import ModelViewSet
 from .forms import GroupForm
 from .models import Product, Order
+from .serializers import ProductSerializer, OrderSerializer
+from django_filters.rest_framework import DjangoFilterBackend
+
+
+class ProductViewSet(ModelViewSet):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    filter_backends = [
+        SearchFilter,
+        DjangoFilterBackend,
+        OrderingFilter,
+    ]
+    search_fields = ['name', 'description']
+    filterset_fields = ['name', 'description', 'price', 'discount', 'archived']
+    ordering_fields = ['name', 'price', 'discount']
+
+
+class OrderViewSet(ModelViewSet):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+    filter_backends = [
+        SearchFilter,
+        DjangoFilterBackend,
+        OrderingFilter
+    ]
+    search_fields = ['delivery_address', 'promocode']
+    filterset_fields = ['id', 'delivery_address', 'promocode']
+    ordering_fields = ['id', 'delivery_address', 'promocode']
 
 
 class ShopIndexViews(View):
