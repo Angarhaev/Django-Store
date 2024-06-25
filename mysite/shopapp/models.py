@@ -5,6 +5,11 @@ from myauth.models import Profile
 
 
 class Product(models.Model):
+    """
+    Модель представляет собой товар, который может быть продан на магазине.
+
+    Заказы :model:`shopapp.Order`
+    """
     class Meta:
         ordering = ["name", "price"]
         # db_table = "tech_products"
@@ -25,6 +30,13 @@ class Product(models.Model):
 
 
 class Order(models.Model):
+    """
+    Модель представляет собой заказ.
+
+    Товары :model:`shopapp.Product`
+
+    Пользователи :model:`myauth.Profile`
+    """
     class Meta:
         #ordering = [""]
         # db_table = "orders"

@@ -7,6 +7,11 @@ def profile_directory_path(instance: "Profile", filename: str) -> str:
 
 
 class Profile(models.Model):
+    """
+    Модель представляет профиля пользователя.
+
+    Заказы :model:`shopapp.Order`
+    """
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     bio = models.TextField(max_length=500, blank=True)
     agreement_accepted = models.BooleanField(default=False)

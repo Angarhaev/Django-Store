@@ -1,10 +1,26 @@
-from timeit import default_timer
+"""
+Модуль представлений над заказами и товарами.
 
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
+В этом модуле содержаться различные представления для работы
+с заказами и товарами.
+"""
+
+from timeit import default_timer
+from django.contrib.auth.mixins import (LoginRequiredMixin,
+                                        PermissionRequiredMixin,
+                                        UserPassesTestMixin)
 from django.views import View
-from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import (TemplateView,
+                                  ListView,
+                                  DetailView,
+                                  CreateView,
+                                  UpdateView,
+                                  DeleteView)
 from django.contrib.auth.models import Group
-from django.http import HttpResponse, HttpRequest, HttpResponseRedirect, JsonResponse
+from django.http import (HttpResponse,
+                         HttpRequest,
+                         HttpResponseRedirect,
+                         JsonResponse)
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.urls import reverse_lazy
 from rest_framework.filters import SearchFilter, OrderingFilter
@@ -16,6 +32,12 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 
 class ProductViewSet(ModelViewSet):
+    """
+    Набор представлений для действий над Product.
+
+    Полный CRUD для сущностей товара.
+    """
+
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     filter_backends = [
