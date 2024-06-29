@@ -29,8 +29,10 @@ from .forms import GroupForm
 from .models import Product, Order
 from .serializers import ProductSerializer, OrderSerializer
 from django_filters.rest_framework import DjangoFilterBackend
+from drf_spectacular.utils import extend_schema, OpenApiResponse
 
 
+@extend_schema(description="Product Views CRUD")
 class ProductViewSet(ModelViewSet):
     """
     Набор представлений для действий над Product.
@@ -48,6 +50,15 @@ class ProductViewSet(ModelViewSet):
     search_fields = ['name', 'description']
     filterset_fields = ['name', 'description', 'price', 'discount', 'archived']
     ordering_fields = ['name', 'price', 'discount']
+
+    @extend_schema(summary='Get 1 product by id',
+                   description="Retrieves product, returns 404 if not found",
+                   responses={
+                       "200": ProductSerializer,
+                       "404": OpenApiResponse(description='Empty response'),
+                              })
+    def retrieve(self, request, *args, **kwargs):
+        return super().retrieve(request, *args, **kwargs)
 
 
 class OrderViewSet(ModelViewSet):
