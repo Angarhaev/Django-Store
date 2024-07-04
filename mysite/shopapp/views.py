@@ -30,6 +30,10 @@ from .models import Product, Order
 from .serializers import ProductSerializer, OrderSerializer
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import extend_schema, OpenApiResponse
+import logging
+
+
+log = logging.getLogger(__name__)
 
 
 @extend_schema(description="Product Views CRUD")
@@ -87,6 +91,7 @@ class ShopIndexViews(View):
             "time_running": default_timer(),
             "products": products
         }
+        #logging.info('Products for shop index %s', products)
         return render(request, 'shopapp/shop-index.html', context=context)
 
 

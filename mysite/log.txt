@@ -1,0 +1,46 @@
+2024-07-03 14:25:51,994 | INFO | django.utils.autoreload | Watching for file changes with StatReloader
+2024-07-03 14:25:52,486 | INFO | root | Products for shop index [('laptop', 500), ('desktop', 700), ('mouse', 50), ('keyboard', 70), ('smartphone', 150)]
+2024-07-03 14:25:52,635 | INFO | root | Products for shop index [('laptop', 500), ('desktop', 700), ('mouse', 50), ('keyboard', 70), ('smartphone', 150)]
+2024-07-03 14:25:52,812 | INFO | root | Products for shop index [('laptop', 500), ('desktop', 700), ('mouse', 50), ('keyboard', 70), ('smartphone', 150)]
+2024-07-03 14:25:52,975 | INFO | root | Products for shop index [('laptop', 500), ('desktop', 700), ('mouse', 50), ('keyboard', 70), ('smartphone', 150)]
+2024-07-03 14:25:53,139 | INFO | root | Products for shop index [('laptop', 500), ('desktop', 700), ('mouse', 50), ('keyboard', 70), ('smartphone', 150)]
+2024-07-03 14:25:53,297 | INFO | root | Products for shop index [('laptop', 500), ('desktop', 700), ('mouse', 50), ('keyboard', 70), ('smartphone', 150)]
+2024-07-03 14:25:53,497 | INFO | root | Products for shop index [('laptop', 500), ('desktop', 700), ('mouse', 50), ('keyboard', 70), ('smartphone', 150)]
+2024-07-03 18:54:24,956 | INFO | django.utils.autoreload | /Users/moskvinangarkhaev/PycharmProjects/python_django/mysite/shopapp/views.py changed, reloading.
+2024-07-03 19:01:18,344 | INFO | django.utils.autoreload | Watching for file changes with StatReloader
+2024-07-04 14:02:23,799 | INFO | django.utils.autoreload | Watching for file changes with StatReloader
+2024-07-04 14:30:31,673 | INFO | django.utils.autoreload | Watching for file changes with StatReloader
+2024-07-04 14:30:40,759 | INFO | django.utils.autoreload | Watching for file changes with StatReloader
+2024-07-04 14:30:42,732 | WARNING | django.request | Not Found: /
+2024-07-04 14:30:42,821 | WARNING | django.request | Not Found: /favicon.ico
+2024-07-04 18:03:39,017 | INFO | django.utils.autoreload | Watching for file changes with StatReloader
+2024-07-04 18:03:41,198 | WARNING | django.request | Not Found: /
+2024-07-04 18:03:48,816 | WARNING | django.request | Not Found: /products
+2024-07-04 18:04:05,221 | WARNING | django.request | Not Found: /ru/shop/orders/export
+2024-07-04 18:04:29,128 | WARNING | django.request | Not Found: /shop/orders/export
+2024-07-04 18:04:47,928 | ERROR | django.request | Internal Server Error: /ru/shop/order/export
+Traceback (most recent call last):
+  File "/Users/moskvinangarkhaev/PycharmProjects/python_django/venv/lib/python3.11/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/moskvinangarkhaev/PycharmProjects/python_django/venv/lib/python3.11/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/moskvinangarkhaev/PycharmProjects/python_django/venv/lib/python3.11/site-packages/sentry_sdk/integrations/django/views.py", line 90, in sentry_wrapped_callback
+    return callback(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/moskvinangarkhaev/PycharmProjects/python_django/venv/lib/python3.11/site-packages/django/views/generic/base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/moskvinangarkhaev/PycharmProjects/python_django/venv/lib/python3.11/site-packages/django/contrib/auth/mixins.py", line 135, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/moskvinangarkhaev/PycharmProjects/python_django/venv/lib/python3.11/site-packages/django/views/generic/base.py", line 143, in dispatch
+    return handler(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/moskvinangarkhaev/PycharmProjects/python_django/mysite/shopapp/views.py", line 229, in get
+    1/0
+    ~^~
+ZeroDivisionError: division by zero
+2024-07-04 18:12:36,140 | INFO | django.utils.autoreload | /Users/moskvinangarkhaev/PycharmProjects/python_django/mysite/shopapp/views.py changed, reloading.
+2024-07-04 18:12:36,756 | INFO | django.utils.autoreload | Watching for file changes with StatReloader
