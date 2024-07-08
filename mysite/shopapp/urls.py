@@ -11,7 +11,10 @@ from .views import (ShopIndexViews,
                     OrderCreate,
                     OrderUpdate,
                     OrderDeleteView,
-                    OrderExportJson, ProductViewSet, OrderViewSet)
+                    OrderExportJson,
+                    ProductViewSet,
+                    OrderViewSet,
+                    LatestProductFeed)
 from rest_framework.routers import DefaultRouter
 
 
@@ -38,5 +41,6 @@ urlpatterns = [
     path("order/<int:pk>", OrderDetailView.as_view(), name="order_detail"),
     path("order/<int:pk>/update", OrderUpdate.as_view(), name="order_update"),
     path("order/<int:pk>/delete", OrderDeleteView.as_view(), name="order_delete"),
-    path("order/export", OrderExportJson.as_view(), name='order_export')
+    path("order/export", OrderExportJson.as_view(), name='order_export'),
+    path("products/latest/feed", LatestProductFeed(), name='products-feed'),
 ]

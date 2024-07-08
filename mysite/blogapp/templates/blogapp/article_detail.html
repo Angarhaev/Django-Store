@@ -1,0 +1,14 @@
+{% extends 'blogapp/base.html' %}
+{% block title %}Article detail{% endblock %}
+{% block body %}
+    <h1>{{ article.title }}</h1>
+    <div>
+        <p>{{ article.content }}</p>
+        <p>Published date: {{ article.pub_date }}</p>
+        <p>Author: {{ article.author }}</p>
+        <p>Categories: {{ article.category }}</p>
+        <p>Tags: {% for tag in article.tags.all %}{{tag.name}}{% if not forloop.last %}, {% endif %}{% endfor %}.</p>
+    </div>
+    <p><a href="{% url 'blogapp:article_list' %}">Back to articles</a></p>
+{% endblock %}
+

@@ -26,5 +26,14 @@ from drf_spectacular.utils import extend_schema, OpenApiResponse
 
 class ArticleListView(ListView):
     template_name = 'blogapp/article_list.html'
+    #model = Article
+    queryset = (Article.objects.filter(pub_date__isnull=False)
+                .order_by('-pub_date')
+                .select_related('author', 'category')
+                .prefetch_related('tags'))
+
+
+class ArticleDetail(DetailView):
     model = Article
-    queryset = Article.objects.select_related('author', 'category').prefetch_related('tags')
+    template_name = 'blogapp/article_detail.html'
+    context_object_name = 'article'

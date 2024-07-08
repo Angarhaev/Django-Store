@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 from myauth.models import Profile
 
@@ -24,9 +25,15 @@ class Product(models.Model):
     created_by = models.ForeignKey(User, on_delete=models.SET_DEFAULT, default=None)
     archived = models.BooleanField(default=False)
 
-
     def __str__(self) -> str:
         return f"Product(pk={self.pk}, name={self.name!r})"
+
+    def get_absolute_url(self):
+        return reverse_lazy('shopapp:product_detail', kwargs={
+            'pk': self.pk
+        })
+
+
 
 
 class Order(models.Model):

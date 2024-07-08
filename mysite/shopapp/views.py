@@ -9,6 +9,7 @@ from timeit import default_timer
 from django.contrib.auth.mixins import (LoginRequiredMixin,
                                         PermissionRequiredMixin,
                                         UserPassesTestMixin)
+from django.contrib.syndication.views import Feed
 from django.views import View
 from django.views.generic import (TemplateView,
                                   ListView,
@@ -34,6 +35,27 @@ import logging
 
 
 log = logging.getLogger(__name__)
+
+
+class LatestProductFeed(Feed):
+    title = "Products latest"
+    description = "Updates on changes and additional products"
+    link = reverse_lazy('shopapp:products_list')
+
+    def items(self):
+        return Product.objects.filter(archived=False).order_by('-created_at')
+
+    def item_title(self, item: Product):
+        return item.name if item.name else 'no name'
+
+    def item_description(self, item: Product):
+        return item.description[:30] if item.description else 'no description'
+
+    def item_pubdate(self, item: Product):
+        return item.created_at
+
+    def item_link(self, item: Product):
+        return item.get_absolute_url()
 
 
 @extend_schema(description="Product Views CRUD")

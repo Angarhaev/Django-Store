@@ -16,11 +16,11 @@ from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 import sentry_sdk
 
-sentry_sdk.init(
-    dsn="https://3162bc6b773efc9fa45347a900879c8d@o4507544823595008.ingest.de.sentry.io/4507544835653712",
-    traces_sample_rate=1.0,
-    profiles_sample_rate=1.0,
-)
+# sentry_sdk.init(
+#     dsn="https://3162bc6b773efc9fa45347a900879c8d@o4507544823595008.ingest.de.sentry.io/4507544835653712",
+#     traces_sample_rate=1.0,
+#     profiles_sample_rate=1.0,
+# )
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -63,6 +63,8 @@ INSTALLED_APPS = [
     'myauth.apps.MyauthConfig',
     'myapi.apps.MyapiConfig',
     'blogapp.apps.BlogappConfig',
+    'django_extensions',
+    'django.contrib.sitemaps'
 ]
 
 MIDDLEWARE = [
