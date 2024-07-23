@@ -10,6 +10,7 @@ from django.contrib.auth.mixins import (LoginRequiredMixin,
                                         PermissionRequiredMixin,
                                         UserPassesTestMixin)
 from django.contrib.syndication.views import Feed
+from django.core.cache import cache
 from django.views import View
 from django.views.generic import (TemplateView,
                                   ListView,
@@ -17,7 +18,7 @@ from django.views.generic import (TemplateView,
                                   CreateView,
                                   UpdateView,
                                   DeleteView)
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group, User
 from django.http import (HttpResponse,
                          HttpRequest,
                          HttpResponseRedirect,
@@ -189,8 +190,27 @@ class ProductArchiveView(DeleteView):
 
 
 class OrdersListView(PermissionRequiredMixin, ListView):
+    template_name = 'shopapp/order_list.html'
     permission_required = ['shopapp.view_order']
     queryset = Order.objects.select_related("user").prefetch_related("products")
+
+
+class UserOrdersListView(UserPassesTestMixin, ListView):
+    template_name = 'shopapp/user_order_list.html'
+    queryset = Order.objects.select_related("user").prefetch_related("products")
+
+    def test_func(self):
+        return self.request.user.is_superuser or self.request.user.id == self.kwargs['user_id']
+
+    def get_queryset(self):
+        id = self.kwargs['user_id']
+        self.owner = get_object_or_404(User, id=id)
+        return Order.objects.filter(user=self.owner)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['owner'] = self.owner
+        return context
 
 
 class OrderDetailView(UserPassesTestMixin, DetailView):
@@ -205,7 +225,9 @@ class OrderDetailView(UserPassesTestMixin, DetailView):
 class OrderCreate(LoginRequiredMixin, CreateView):
     model = Order
     fields = ["delivery_address", "promocode", "user", "products"]
-    success_url = reverse_lazy("shopapp:orders_list")
+
+    def get_success_url(self):
+        return reverse("shopapp:user_orders_list", kwargs={"user_id": self.object.user.pk})
 
 
 class OrderUpdate(UserPassesTestMixin, UpdateView):
@@ -228,7 +250,9 @@ class OrderDeleteView(UserPassesTestMixin, DeleteView):
         creator = order.user
         return self.request.user.is_superuser or self.request.user == creator
     model = Order
-    success_url = reverse_lazy("shopapp:orders_list")
+
+    def get_success_url(self):
+        return reverse("shopapp:user_orders_list", kwargs={"user_id": self.object.user.pk})
 
 
 class OrderExportJson(UserPassesTestMixin, View):
@@ -250,3 +274,17 @@ class OrderExportJson(UserPassesTestMixin, View):
         ]
         return JsonResponse({'orders': orders_data})
 
+
+class UserOrderExportJson(UserPassesTestMixin, View):
+    def test_func(self):
+        return self.request.user.is_superuser or self.request.user.id == self.kwargs['user_id']
+
+    def get(self, request: HttpRequest, user_id) -> JsonResponse:
+        cache_key = f'orders_export_{user_id}'
+        orders_data = cache.get(cache_key)
+        if orders_data is None:
+            orders = Order.objects.select_related('user').filter(user__id=user_id).order_by('pk').all()
+            serializer = OrderSerializer(orders, many=True)
+            orders_data = serializer.data
+            cache.set(cache_key, orders_data, 60)
+        return JsonResponse({'orders': orders_data})

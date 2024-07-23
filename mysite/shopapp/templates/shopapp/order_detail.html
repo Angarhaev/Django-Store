@@ -17,5 +17,6 @@ Order #{{ order.pk }}
     </div>
     <p><a href="{% url 'shopapp:order_update' pk=order.pk %}">Update order</a></p>
     <p><a href="{% url 'shopapp:order_delete' pk=order.pk %}">Delete order</a></p>
-    <p><a href="{% url 'shopapp:orders_list' %}">Back to orders</a></p>
+    <p><a href="{% url 'shopapp:user_order_export' user_id=order.user.pk %}">Export order</a></p>
+    <p><a href="{% url 'shopapp:user_orders_list' user_id=order.user.pk %}">Back to user orders</a></p>
 {% endblock %}

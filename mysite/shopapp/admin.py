@@ -109,6 +109,11 @@ class OrderAdmin(admin.ModelAdmin):
 
         reader = DictReader(csv_file)
 
+        #users = []
+        #products = []
+        #orders_data = []
+        #orders_products = {}
+
         for row in reader:
             delivery_address = row['delivery_address']
             promocode = row['promocode']

@@ -14,7 +14,8 @@ from .views import (ShopIndexViews,
                     OrderExportJson,
                     ProductViewSet,
                     OrderViewSet,
-                    LatestProductFeed)
+                    UserOrdersListView,
+                    LatestProductFeed, UserOrderExportJson)
 from rest_framework.routers import DefaultRouter
 
 
@@ -37,10 +38,12 @@ urlpatterns = [
     path("products/<int:pk>/update", ProductUpdate.as_view(), name="product_update"),
     path("products/<int:pk>/delete", ProductArchiveView.as_view(), name="product_archive"),
     path("orders/", OrdersListView.as_view(), name="orders_list"),
+    path("users/<int:user_id>/orders/", UserOrdersListView.as_view(), name="user_orders_list"),
     path("orders/create", OrderCreate.as_view(), name="order_create"),
     path("order/<int:pk>", OrderDetailView.as_view(), name="order_detail"),
     path("order/<int:pk>/update", OrderUpdate.as_view(), name="order_update"),
     path("order/<int:pk>/delete", OrderDeleteView.as_view(), name="order_delete"),
     path("order/export", OrderExportJson.as_view(), name='order_export'),
+    path("users/<int:user_id>/order/export", UserOrderExportJson.as_view(), name='user_order_export'),
     path("products/latest/feed", LatestProductFeed(), name='products-feed'),
 ]
