@@ -5,9 +5,11 @@ services:
       dockerfile: ./Dockerfile
     command:
       - gunicorn
-      - mysite.wsgi:application
+      - --workers
+      - "3"
       - --bind
       - "0.0.0.0:8000"
+      - mysite.wsgi:application
     ports:
       - "8000:8000"
     restart: always
@@ -20,6 +22,7 @@ services:
 #        loki-url: http://host.docker.internal/loki/api/v1/push
     volumes:
       - ./mysite/database:/app/database
+      - ./mysite/static:/app/mysite/static
   grafana:
     image: grafana/grafana:latest
     environment:

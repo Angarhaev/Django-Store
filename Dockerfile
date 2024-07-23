@@ -12,4 +12,6 @@ RUN pip install -r requirements.txt
 
 COPY mysite .
 
-CMD ["gunicorn", "mysite.wsgi:application", "--bind", "0.0.0.0:8000"]
+RUN python manage.py collectstatic --noinput
+
+CMD ["gunicorn", "--workers", "3", "--bind", "0.0.0.0:8000", "mysite.wsgi:application"]
